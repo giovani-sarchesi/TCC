@@ -39,6 +39,11 @@
             this.txtValoresPossiveis = new System.Windows.Forms.TextBox();
             this.lblInstrucao = new System.Windows.Forms.Label();
             this.btnAdicionaVariavel = new System.Windows.Forms.Button();
+            this.lstVariaveis = new System.Windows.Forms.ListView();
+            this.clnNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clnVlrPossiveis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblLista = new System.Windows.Forms.Label();
+            this.clnQtde = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.pctGif)).BeginInit();
             this.pnlMensagem.SuspendLayout();
             this.SuspendLayout();
@@ -58,9 +63,9 @@
             // 
             // btnGerarCombinacao
             // 
-            this.btnGerarCombinacao.Location = new System.Drawing.Point(12, 498);
+            this.btnGerarCombinacao.Location = new System.Drawing.Point(12, 510);
             this.btnGerarCombinacao.Name = "btnGerarCombinacao";
-            this.btnGerarCombinacao.Size = new System.Drawing.Size(517, 35);
+            this.btnGerarCombinacao.Size = new System.Drawing.Size(517, 23);
             this.btnGerarCombinacao.TabIndex = 1;
             this.btnGerarCombinacao.Text = "Gerar Combinação";
             this.btnGerarCombinacao.UseVisualStyleBackColor = true;
@@ -111,17 +116,17 @@
             // txtNomeVar
             // 
             this.txtNomeVar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNomeVar.Location = new System.Drawing.Point(15, 36);
+            this.txtNomeVar.Location = new System.Drawing.Point(12, 36);
             this.txtNomeVar.Name = "txtNomeVar";
-            this.txtNomeVar.Size = new System.Drawing.Size(514, 23);
+            this.txtNomeVar.Size = new System.Drawing.Size(517, 23);
             this.txtNomeVar.TabIndex = 5;
             // 
             // txtValoresPossiveis
             // 
             this.txtValoresPossiveis.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtValoresPossiveis.Location = new System.Drawing.Point(15, 84);
+            this.txtValoresPossiveis.Location = new System.Drawing.Point(12, 84);
             this.txtValoresPossiveis.Name = "txtValoresPossiveis";
-            this.txtValoresPossiveis.Size = new System.Drawing.Size(514, 23);
+            this.txtValoresPossiveis.Size = new System.Drawing.Size(517, 23);
             this.txtValoresPossiveis.TabIndex = 6;
             // 
             // lblInstrucao
@@ -130,19 +135,59 @@
             this.lblInstrucao.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInstrucao.Location = new System.Drawing.Point(139, 67);
             this.lblInstrucao.Name = "lblInstrucao";
-            this.lblInstrucao.Size = new System.Drawing.Size(265, 13);
+            this.lblInstrucao.Size = new System.Drawing.Size(253, 13);
             this.lblInstrucao.TabIndex = 7;
-            this.lblInstrucao.Text = "(Separe os valores com ponto e vírgula (;). Ex: A; B; C)";
+            this.lblInstrucao.Text = "(Separe os valores com barra lateral (/). Ex: A/B/C/)";
             // 
             // btnAdicionaVariavel
             // 
-            this.btnAdicionaVariavel.Location = new System.Drawing.Point(340, 113);
+            this.btnAdicionaVariavel.Location = new System.Drawing.Point(12, 113);
             this.btnAdicionaVariavel.Name = "btnAdicionaVariavel";
-            this.btnAdicionaVariavel.Size = new System.Drawing.Size(189, 23);
+            this.btnAdicionaVariavel.Size = new System.Drawing.Size(517, 23);
             this.btnAdicionaVariavel.TabIndex = 8;
             this.btnAdicionaVariavel.Text = "Adicionar Variável";
             this.btnAdicionaVariavel.UseVisualStyleBackColor = true;
             this.btnAdicionaVariavel.Click += new System.EventHandler(this.btnAdicionaVariavel_Click);
+            // 
+            // lstVariaveis
+            // 
+            this.lstVariaveis.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clnNome,
+            this.clnVlrPossiveis,
+            this.clnQtde});
+            this.lstVariaveis.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstVariaveis.HideSelection = false;
+            this.lstVariaveis.Location = new System.Drawing.Point(12, 162);
+            this.lstVariaveis.Name = "lstVariaveis";
+            this.lstVariaveis.Size = new System.Drawing.Size(517, 342);
+            this.lstVariaveis.TabIndex = 9;
+            this.lstVariaveis.UseCompatibleStateImageBehavior = false;
+            this.lstVariaveis.View = System.Windows.Forms.View.Details;
+            // 
+            // clnNome
+            // 
+            this.clnNome.Text = "Nome Variável";
+            this.clnNome.Width = 140;
+            // 
+            // clnVlrPossiveis
+            // 
+            this.clnVlrPossiveis.Text = "Valores Possíveis";
+            this.clnVlrPossiveis.Width = 300;
+            // 
+            // lblLista
+            // 
+            this.lblLista.AutoSize = true;
+            this.lblLista.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLista.Location = new System.Drawing.Point(191, 142);
+            this.lblLista.Name = "lblLista";
+            this.lblLista.Size = new System.Drawing.Size(159, 17);
+            this.lblLista.TabIndex = 10;
+            this.lblLista.Text = "Variáveis já informadas:";
+            // 
+            // clnQtde
+            // 
+            this.clnQtde.Text = "Qtde.";
+            this.clnQtde.Width = 70;
             // 
             // frmGeracao
             // 
@@ -151,6 +196,8 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(541, 583);
+            this.Controls.Add(this.lblLista);
+            this.Controls.Add(this.lstVariaveis);
             this.Controls.Add(this.btnAdicionaVariavel);
             this.Controls.Add(this.lblInstrucao);
             this.Controls.Add(this.txtValoresPossiveis);
@@ -182,6 +229,11 @@
         private System.Windows.Forms.TextBox txtValoresPossiveis;
         private System.Windows.Forms.Label lblInstrucao;
         private System.Windows.Forms.Button btnAdicionaVariavel;
+        private System.Windows.Forms.ListView lstVariaveis;
+        private System.Windows.Forms.ColumnHeader clnNome;
+        private System.Windows.Forms.ColumnHeader clnVlrPossiveis;
+        private System.Windows.Forms.Label lblLista;
+        private System.Windows.Forms.ColumnHeader clnQtde;
     }
 }
 
