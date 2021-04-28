@@ -42,8 +42,10 @@
             this.lstVariaveis = new System.Windows.Forms.ListView();
             this.clnNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clnVlrPossiveis = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblLista = new System.Windows.Forms.Label();
             this.clnQtde = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lblLista = new System.Windows.Forms.Label();
+            this.txtNomeArquivo = new System.Windows.Forms.TextBox();
+            this.lblNomeArquivo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pctGif)).BeginInit();
             this.pnlMensagem.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +57,7 @@
             this.pctGif.Image = ((System.Drawing.Image)(resources.GetObject("pctGif.Image")));
             this.pctGif.Location = new System.Drawing.Point(0, 0);
             this.pctGif.Name = "pctGif";
-            this.pctGif.Size = new System.Drawing.Size(541, 583);
+            this.pctGif.Size = new System.Drawing.Size(541, 632);
             this.pctGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pctGif.TabIndex = 0;
             this.pctGif.TabStop = false;
@@ -63,7 +65,7 @@
             // 
             // btnGerarCombinacao
             // 
-            this.btnGerarCombinacao.Location = new System.Drawing.Point(12, 510);
+            this.btnGerarCombinacao.Location = new System.Drawing.Point(12, 557);
             this.btnGerarCombinacao.Name = "btnGerarCombinacao";
             this.btnGerarCombinacao.Size = new System.Drawing.Size(517, 23);
             this.btnGerarCombinacao.TabIndex = 1;
@@ -75,7 +77,7 @@
             // 
             this.pnlMensagem.Controls.Add(this.lblMensagem);
             this.pnlMensagem.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlMensagem.Location = new System.Drawing.Point(0, 539);
+            this.pnlMensagem.Location = new System.Drawing.Point(0, 588);
             this.pnlMensagem.Name = "pnlMensagem";
             this.pnlMensagem.Size = new System.Drawing.Size(541, 44);
             this.pnlMensagem.TabIndex = 2;
@@ -174,6 +176,11 @@
             this.clnVlrPossiveis.Text = "Valores Possíveis";
             this.clnVlrPossiveis.Width = 300;
             // 
+            // clnQtde
+            // 
+            this.clnQtde.Text = "Qtde.";
+            this.clnQtde.Width = 70;
+            // 
             // lblLista
             // 
             this.lblLista.AutoSize = true;
@@ -184,10 +191,23 @@
             this.lblLista.TabIndex = 10;
             this.lblLista.Text = "Variáveis já informadas:";
             // 
-            // clnQtde
+            // txtNomeArquivo
             // 
-            this.clnQtde.Text = "Qtde.";
-            this.clnQtde.Width = 70;
+            this.txtNomeArquivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNomeArquivo.Location = new System.Drawing.Point(12, 528);
+            this.txtNomeArquivo.Name = "txtNomeArquivo";
+            this.txtNomeArquivo.Size = new System.Drawing.Size(517, 23);
+            this.txtNomeArquivo.TabIndex = 12;
+            // 
+            // lblNomeArquivo
+            // 
+            this.lblNomeArquivo.AutoSize = true;
+            this.lblNomeArquivo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNomeArquivo.Location = new System.Drawing.Point(15, 507);
+            this.lblNomeArquivo.Name = "lblNomeArquivo";
+            this.lblNomeArquivo.Size = new System.Drawing.Size(97, 17);
+            this.lblNomeArquivo.TabIndex = 11;
+            this.lblNomeArquivo.Text = "Nome Arquivo";
             // 
             // frmGeracao
             // 
@@ -195,7 +215,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(541, 583);
+            this.ClientSize = new System.Drawing.Size(541, 632);
+            this.Controls.Add(this.txtNomeArquivo);
+            this.Controls.Add(this.lblNomeArquivo);
             this.Controls.Add(this.lblLista);
             this.Controls.Add(this.lstVariaveis);
             this.Controls.Add(this.btnAdicionaVariavel);
@@ -208,6 +230,7 @@
             this.Controls.Add(this.btnGerarCombinacao);
             this.Controls.Add(this.pctGif);
             this.Name = "frmGeracao";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gerador de Combinações";
             ((System.ComponentModel.ISupportInitialize)(this.pctGif)).EndInit();
             this.pnlMensagem.ResumeLayout(false);
@@ -234,6 +257,8 @@
         private System.Windows.Forms.ColumnHeader clnVlrPossiveis;
         private System.Windows.Forms.Label lblLista;
         private System.Windows.Forms.ColumnHeader clnQtde;
+        private System.Windows.Forms.TextBox txtNomeArquivo;
+        private System.Windows.Forms.Label lblNomeArquivo;
     }
 }
 

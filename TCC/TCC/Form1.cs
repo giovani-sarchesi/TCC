@@ -17,7 +17,69 @@ namespace TCC
 
         private void btnGerarCombinacao_Click(object sender, EventArgs e)
         {
-            MostraGif();
+            try
+            {
+                //Verificação de quantas variáveis foram informadas, se menos que 2, uma exceção é enviada.
+                if(variaveis.Count < 2)
+                {
+                    throw new Exception("Pelo menos 2 variáveis devem ser informadas para gerar combinações.");
+                }
+                //Verificação se o nome do arquivo foi informado, se não, uma exceção é enviada.
+                else if(string.IsNullOrEmpty(txtNomeArquivo.Text))
+                {
+                    throw new Exception("O nome para o arquivo deve ser informado");
+                }
+                //Se os dois não gerar exceção, é iniciada a lógica para montagem das combinações
+                else
+                {
+                    //Estrutura de repetição que preencherá a coluna referente a quantidade de combinações
+                    //Levando em consideração que a 1ª variável já tem a informação preenchida, o loop é iniciado na pos 1 e não na 0
+                    for(int i = 1; i < variaveis.Count; i++)
+                    {
+                        variaveis[i].QtdeCombinacoes = variaveis[i].QtdeValores * variaveis[i - 1].QtdeCombinacoes;
+                    }
+
+                    //Estrutura de repetição que preencherá a coluna referente a quantidade de repetições
+                    //Levando em consideração a conta que deve ser feita, o loop é iniciado do fim para o começo
+                    //e o numerador é travado através do código 'variaveis[variaveis.Count - 1].QtdeCombinacoes' e apenas 
+                    //o denomidor é modificado pelo for.
+                    for (int i = variaveis.Count - 1; i > -1; i--)
+                    {
+                        variaveis[i].QtdeRepeticoes = variaveis[variaveis.Count - 1].QtdeCombinacoes / variaveis[i].QtdeCombinacoes; 
+                    }
+
+                    foreach(Variaveis var in variaveis)
+                    {
+                        Console.WriteLine(var.Nome + "\t" + 
+                                          var.QtdeValores + "\t" + 
+                                          var.QtdeCombinacoes + "\t" + 
+                                          var.QtdeRepeticoes); 
+                    }
+
+                    foreach (Variaveis var in variaveis)
+                    {
+                        string combinacao = var.Nome + " | ";
+
+                        for (int j = 0; j < variaveis[variaveis.Count - 1].QtdeCombinacoes;)
+                        {
+                            foreach (string vlr in var.ValoresPossiveis)
+                            {
+                                for (int i = 0; i < var.QtdeRepeticoes; i++)
+                                {
+                                    combinacao = combinacao + vlr + " | ";
+                                    j++;
+                                }
+                            }
+                        }
+
+                        Console.WriteLine(combinacao);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnAdicionaVariavel_Click(object sender, EventArgs e)
@@ -61,6 +123,11 @@ namespace TCC
                             novo.QtdeValores.ToString()
                         };
 
+                        if (variaveis.Count == 0)
+                        {
+                            novo.QtdeCombinacoes = novo.QtdeValores;
+                        }
+
                         variaveis.Add(novo);
                         ListViewItem novoItem = new ListViewItem(var);
                         lstVariaveis.Items.Add(novoItem);
@@ -82,7 +149,7 @@ namespace TCC
 
         //Funções
 
-        //Função para esconder os componentes e mostrar o gif e mensagem para o usuário.
+        //Função para esconder os componentes e mostrar o gif quando for gerar as combinações.
         public void MostraGif()
         {
             pctGif.Visible = true;
@@ -97,6 +164,8 @@ namespace TCC
             btnAdicionaVariavel.Visible = false;
             lblLista.Visible = false;
             lstVariaveis.Visible = false;
+            lblNomeArquivo.Visible = false;
+            txtNomeArquivo.Visible = false;
         }
     }
 }

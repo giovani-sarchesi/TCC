@@ -5,6 +5,8 @@ public class Variaveis
     private string nome;
     private List<string> valoresPossiveis = new List<string>();
     private int qtdeValores;
+    private int qtdeCombinacoes;
+    private int qtdeRepeticoes;
 
     public string Nome
     {
@@ -39,6 +41,30 @@ public class Variaveis
         set
         {
             qtdeValores = value;
+        }
+    }
+
+    public int QtdeCombinacoes
+    {
+        get
+        {
+            return qtdeCombinacoes;
+        }
+        set
+        {
+            qtdeCombinacoes = value;
+        }
+    }
+
+    public int QtdeRepeticoes
+    {
+        get
+        {
+            return qtdeRepeticoes;
+        }
+        set
+        {
+            qtdeRepeticoes = value;
         }
     }
 }
