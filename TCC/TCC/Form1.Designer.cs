@@ -28,11 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGeracao));
-            this.pctGif = new System.Windows.Forms.PictureBox();
             this.btnGerarCombinacao = new System.Windows.Forms.Button();
-            this.pnlMensagem = new System.Windows.Forms.Panel();
-            this.lblMensagem = new System.Windows.Forms.Label();
             this.lblNomeVar = new System.Windows.Forms.Label();
             this.lblValoresPossiveis = new System.Windows.Forms.Label();
             this.txtNomeVar = new System.Windows.Forms.TextBox();
@@ -46,22 +42,7 @@
             this.lblLista = new System.Windows.Forms.Label();
             this.txtNomeArquivo = new System.Windows.Forms.TextBox();
             this.lblNomeArquivo = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pctGif)).BeginInit();
-            this.pnlMensagem.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // pctGif
-            // 
-            this.pctGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pctGif.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pctGif.Image = ((System.Drawing.Image)(resources.GetObject("pctGif.Image")));
-            this.pctGif.Location = new System.Drawing.Point(0, 0);
-            this.pctGif.Name = "pctGif";
-            this.pctGif.Size = new System.Drawing.Size(541, 632);
-            this.pctGif.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pctGif.TabIndex = 0;
-            this.pctGif.TabStop = false;
-            this.pctGif.Visible = false;
             // 
             // btnGerarCombinacao
             // 
@@ -72,28 +53,6 @@
             this.btnGerarCombinacao.Text = "Gerar Combinação";
             this.btnGerarCombinacao.UseVisualStyleBackColor = true;
             this.btnGerarCombinacao.Click += new System.EventHandler(this.btnGerarCombinacao_Click);
-            // 
-            // pnlMensagem
-            // 
-            this.pnlMensagem.Controls.Add(this.lblMensagem);
-            this.pnlMensagem.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlMensagem.Location = new System.Drawing.Point(0, 588);
-            this.pnlMensagem.Name = "pnlMensagem";
-            this.pnlMensagem.Size = new System.Drawing.Size(541, 44);
-            this.pnlMensagem.TabIndex = 2;
-            this.pnlMensagem.Visible = false;
-            // 
-            // lblMensagem
-            // 
-            this.lblMensagem.AutoSize = true;
-            this.lblMensagem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMensagem.Location = new System.Drawing.Point(106, 11);
-            this.lblMensagem.Name = "lblMensagem";
-            this.lblMensagem.Size = new System.Drawing.Size(329, 24);
-            this.lblMensagem.TabIndex = 0;
-            this.lblMensagem.Text = "Gerando combinações, aguarde...";
-            this.lblMensagem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.lblMensagem.Visible = false;
             // 
             // lblNomeVar
             // 
@@ -215,7 +174,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.InactiveBorder;
-            this.ClientSize = new System.Drawing.Size(541, 632);
+            this.ClientSize = new System.Drawing.Size(541, 589);
             this.Controls.Add(this.txtNomeArquivo);
             this.Controls.Add(this.lblNomeArquivo);
             this.Controls.Add(this.lblLista);
@@ -226,26 +185,17 @@
             this.Controls.Add(this.txtNomeVar);
             this.Controls.Add(this.lblValoresPossiveis);
             this.Controls.Add(this.lblNomeVar);
-            this.Controls.Add(this.pnlMensagem);
             this.Controls.Add(this.btnGerarCombinacao);
-            this.Controls.Add(this.pctGif);
             this.Name = "frmGeracao";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gerador de Combinações";
-            ((System.ComponentModel.ISupportInitialize)(this.pctGif)).EndInit();
-            this.pnlMensagem.ResumeLayout(false);
-            this.pnlMensagem.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pctGif;
         private System.Windows.Forms.Button btnGerarCombinacao;
-        private System.Windows.Forms.Panel pnlMensagem;
-        private System.Windows.Forms.Label lblMensagem;
         private System.Windows.Forms.Label lblNomeVar;
         private System.Windows.Forms.Label lblValoresPossiveis;
         private System.Windows.Forms.TextBox txtNomeVar;
