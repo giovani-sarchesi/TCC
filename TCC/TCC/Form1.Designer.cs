@@ -157,6 +157,7 @@
             this.txtNomeArquivo.Name = "txtNomeArquivo";
             this.txtNomeArquivo.Size = new System.Drawing.Size(517, 23);
             this.txtNomeArquivo.TabIndex = 12;
+            this.txtNomeArquivo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNomeArquivo_KeyPress);
             // 
             // lblNomeArquivo
             // 

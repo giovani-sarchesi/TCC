@@ -23,12 +23,12 @@ namespace TCC
             try
             {
                 //Verificação de quantas variáveis foram informadas, se menos que 2, uma exceção é enviada.
-                if(variaveis.Count < 2)
+                if (variaveis.Count < 2)
                 {
                     throw new Exception("Pelo menos 2 variáveis devem ser informadas para gerar combinações.");
                 }
                 //Verificação se o nome do arquivo foi informado, se não, uma exceção é enviada.
-                else if(string.IsNullOrEmpty(txtNomeArquivo.Text))
+                else if (string.IsNullOrEmpty(txtNomeArquivo.Text))
                 {
                     throw new Exception("O nome para o arquivo deve ser informado");
                 }
@@ -37,7 +37,7 @@ namespace TCC
                 {
                     //Estrutura de repetição que preencherá a coluna referente a quantidade de combinações
                     //Levando em consideração que a 1ª variável já tem a informação preenchida, o loop é iniciado na pos 1 e não na 0
-                    for(int i = 1; i < variaveis.Count; i++)
+                    for (int i = 1; i < variaveis.Count; i++)
                     {
                         variaveis[i].QtdeCombinacoes = variaveis[i].QtdeValores * variaveis[i - 1].QtdeCombinacoes;
                     }
@@ -48,13 +48,13 @@ namespace TCC
                     //o denomidor é modificado pelo for.
                     for (int i = variaveis.Count - 1; i > -1; i--)
                     {
-                        variaveis[i].QtdeRepeticoes = variaveis[variaveis.Count - 1].QtdeCombinacoes / variaveis[i].QtdeCombinacoes; 
+                        variaveis[i].QtdeRepeticoes = variaveis[variaveis.Count - 1].QtdeCombinacoes / variaveis[i].QtdeCombinacoes;
                     }
 
                     GerarArquivo(variaveis, txtNomeArquivo.Text);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -119,7 +119,7 @@ namespace TCC
                     throw new Exception("O campo \"Valores Possíveis\" não está no formato correto!");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -138,84 +138,15 @@ namespace TCC
                     if (MessageBox.Show("Já existe um arquivo com o nome especificado, deseja substituir o arquivo antigo? Se não, informe outro nome e gere novamente.",
                                         "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-
-                        DataTable dtCabecalho = new DataTable();
-
-                        dtCabecalho.Columns.AddRange(new DataColumn[5]
-                        {
-                            new DataColumn("Nome variáveis", typeof(string)),
-                            new DataColumn("Valores pos.", typeof(string)),
-                            new DataColumn("Qntde val.", typeof(int)),
-                            new DataColumn("Qntde com.", typeof(int)),
-                            new DataColumn("Qntde rep.", typeof(int)),
-                        });
-
-                        foreach (Variaveis dd in dados)
-                        {
-                            dtCabecalho.Rows.Add(dd.Nome,
-                                             FormataValoresPossiveis(dd.ValoresPossiveis),
-                                             dd.QtdeValores,
-                                             dd.QtdeCombinacoes,
-                                             dd.QtdeRepeticoes);
-                        }
-
-                        DataTable dtCombinacoes = new DataTable();
-
-                        dtCombinacoes.Columns.Add(new DataColumn("Entradas/Ações", typeof(string)));
-
-                        for(int i = 1; i <= variaveis[variaveis.Count - 1].QtdeCombinacoes; i++)
-                        {
-                            dtCombinacoes.Columns.Add(new DataColumn(("Combinação " + i), typeof(string)));
-                        }
-
-                        foreach (Variaveis var in variaveis)
-                        {
-                            string[] novaLinha = new string[variaveis[variaveis.Count - 1].QtdeCombinacoes + 1];
-                            novaLinha[0] = var.Nome;
-
-                            for (int j = 0; j < variaveis[variaveis.Count - 1].QtdeCombinacoes;)
-                            {
-                                foreach (string vlr in var.ValoresPossiveis)
-                                {
-                                    for (int i = 0; i < var.QtdeRepeticoes; i++)
-                                    {
-                                        novaLinha[j + 1] = vlr.ToString();
-                                        j++;
-                                    }
-                                }
-                            }
-
-                            dtCombinacoes.Rows.Add(novaLinha);
-                        }
-
-                        if (!Directory.Exists(caminho))
-                        {
-                            Directory.CreateDirectory(caminho);
-                        }
-
-                        var wb = new XLWorkbook();
-
-                        var wsvar = wb.Worksheets.Add(dtCabecalho, "Variáveis");
-                        var wscomb = wb.Worksheets.Add(dtCombinacoes, "Combinações");
-
-                        wsvar.Columns().AdjustToContents();
-                        wscomb.Columns().AdjustToContents();
-
-                        wb.SaveAs(caminho + nomeArquivo + ".xlsx");
-
-                        MessageBox.Show("Arquivo gerado com sucesso." +
-                                        "\nCaminho: " + caminho +
-                                        "\nArquivo: " + nomeArquivo,
-                                        "Sucesso",
-                                        MessageBoxButtons.OK);
-
-                        lstVariaveis.Items.Clear();
-                        variaveis.Clear();
-                        txtNomeArquivo.Text = "";
+                        CriaConteudoArquivo(dados, nomeArquivo, caminho);
                     }
                 }
+                else
+                {
+                    CriaConteudoArquivo(dados, nomeArquivo, caminho);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -225,12 +156,101 @@ namespace TCC
         {
             string formata = "";
 
-            foreach(string vlr in valores)
+            foreach (string vlr in valores)
             {
                 formata += vlr + "/";
             }
 
             return formata;
+        }
+
+        public void CriaConteudoArquivo(List<Variaveis> dados, string nomeArquivo, string caminho)
+        {
+            DataTable dtCabecalho = new DataTable();
+
+            dtCabecalho.Columns.AddRange(new DataColumn[5]
+            {
+                            new DataColumn("Nome variáveis", typeof(string)),
+                            new DataColumn("Valores pos.", typeof(string)),
+                            new DataColumn("Qntde val.", typeof(int)),
+                            new DataColumn("Qntde com.", typeof(int)),
+                            new DataColumn("Qntde rep.", typeof(int)),
+            });
+
+            foreach (Variaveis dd in dados)
+            {
+                dtCabecalho.Rows.Add(dd.Nome,
+                                 FormataValoresPossiveis(dd.ValoresPossiveis),
+                                 dd.QtdeValores,
+                                 dd.QtdeCombinacoes,
+                                 dd.QtdeRepeticoes);
+            }
+
+            int comecaComb = dtCabecalho.Rows.Count + 3;
+
+            DataTable dtCombinacoes = new DataTable();
+
+            dtCombinacoes.Columns.Add(new DataColumn("Entradas/Ações", typeof(string)));
+
+            for (int i = 1; i <= variaveis[variaveis.Count - 1].QtdeCombinacoes; i++)
+            {
+                dtCombinacoes.Columns.Add(new DataColumn(("Combinação " + i), typeof(string)));
+            }
+
+            foreach (Variaveis var in variaveis)
+            {
+                string[] novaLinha = new string[variaveis[variaveis.Count - 1].QtdeCombinacoes + 1];
+                novaLinha[0] = var.Nome;
+
+                for (int j = 0; j < variaveis[variaveis.Count - 1].QtdeCombinacoes;)
+                {
+                    foreach (string vlr in var.ValoresPossiveis)
+                    {
+                        for (int i = 0; i < var.QtdeRepeticoes; i++)
+                        {
+                            novaLinha[j + 1] = vlr.ToString();
+                            j++;
+                        }
+                    }
+                }
+
+                dtCombinacoes.Rows.Add(novaLinha);
+            }
+
+            if (!Directory.Exists(caminho))
+            {
+                Directory.CreateDirectory(caminho);
+            }
+
+            var wb = new XLWorkbook();
+
+            var wsvar = wb.Worksheets.Add(dtCabecalho, "Combinações");
+            wb.Worksheet("Combinações").Cell(comecaComb, 1).InsertTable(dtCombinacoes);
+
+            wsvar.Columns().AdjustToContents();
+
+            wb.SaveAs(caminho + nomeArquivo + ".xlsx");
+
+            MessageBox.Show("Arquivo gerado com sucesso." +
+                            "\nCaminho: " + caminho +
+                            "\nArquivo: " + nomeArquivo,
+                            "Sucesso",
+                            MessageBoxButtons.OK);
+
+            lstVariaveis.Items.Clear();
+            variaveis.Clear();
+            txtNomeArquivo.Text = "";
+        }
+
+        private void txtNomeArquivo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            string caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            if (!(caracteresPermitidos.Contains(e.KeyChar.ToString().ToUpper())) && !char.IsControl(e.KeyChar))
+            {
+                MessageBox.Show("Caracter " + e.KeyChar + " não permitido para nome de arquivo.");
+                e.Handled = true;
+            }
+
         }
     }
 }
