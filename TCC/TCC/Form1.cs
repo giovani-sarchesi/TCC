@@ -10,7 +10,9 @@ namespace TCC
 {
     public partial class frmGeracao : Form
     {
-
+        public TimeSpan horaInicio;
+        public TimeSpan horaFinal;
+        public TimeSpan tempoGasto;
         public List<Variaveis> variaveis = new List<Variaveis>();
 
         public frmGeracao()
@@ -73,7 +75,7 @@ namespace TCC
                 if (!string.IsNullOrEmpty(txtValoresPossiveis.Text) && txtValoresPossiveis.Text.Contains("/"))
                 {
                     //Mensagem para confirmar se o usuário deseja adicionar a variável informada e os valores possíveis
-                    if (MessageBox.Show("Deseja realmente adicionar a variável " + txtNomeVar.Text +
+                    if (MessageBox.Show("Deseja realmente adicionar a variável:\n" + txtNomeVar.Text +
                                        "\nCom os valores possíveis:\n" + txtValoresPossiveis.Text + " ?", "Confirmar",
                                        MessageBoxButtons.OKCancel,
                                        MessageBoxIcon.Question) == DialogResult.OK)
@@ -127,12 +129,15 @@ namespace TCC
 
         //Funções
 
+        //Função para gerar arquivo
         public void GerarArquivo(List<Variaveis> dados, string nomeArquivo)
         {
             try
             {
                 string caminho = "C:\\Combinacoes\\";
 
+                //Verificação se já existe um arquivo com o nome informado, com opção para o usuário escolher
+                //caso exista, se deseja subtituir seu conteúdo ou se deseja informar outro nome
                 if (File.Exists(caminho + nomeArquivo + ".xlsx"))
                 {
                     if (MessageBox.Show("Já existe um arquivo com o nome especificado, deseja substituir o arquivo antigo? Se não, informe outro nome e gere novamente.",
@@ -152,6 +157,7 @@ namespace TCC
             }
         }
 
+        //Função para transforma a lista dos valores possíveis em uma string
         public string FormataValoresPossiveis(List<string> valores)
         {
             string formata = "";
@@ -166,8 +172,11 @@ namespace TCC
 
         public void CriaConteudoArquivo(List<Variaveis> dados, string nomeArquivo, string caminho)
         {
+            horaInicio = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            //Criação do datatable para setar os dados do cabeçalho
             DataTable dtCabecalho = new DataTable();
 
+            //Adicionando as colunas no datatable
             dtCabecalho.Columns.AddRange(new DataColumn[5]
             {
                             new DataColumn("Nome variáveis", typeof(string)),
@@ -177,6 +186,7 @@ namespace TCC
                             new DataColumn("Qntde rep.", typeof(int)),
             });
 
+            //Adicionando as linhas com os respectivos dados das variáveis informadas
             foreach (Variaveis dd in dados)
             {
                 dtCabecalho.Rows.Add(dd.Nome,
@@ -186,10 +196,14 @@ namespace TCC
                                  dd.QtdeRepeticoes);
             }
 
+            //Contagem das linhas utilizadas para criação do cabeçalho
             int comecaComb = dtCabecalho.Rows.Count + 3;
 
+            //Criação do datatable que receberá as combinações
             DataTable dtCombinacoes = new DataTable();
 
+            //Adicionando as colunas no datatable, primeiro a "Entrada/Ações" depois
+            //as referente ao numeros de combinações geradas
             dtCombinacoes.Columns.Add(new DataColumn("Entradas/Ações", typeof(string)));
 
             for (int i = 1; i <= variaveis[variaveis.Count - 1].QtdeCombinacoes; i++)
@@ -197,15 +211,22 @@ namespace TCC
                 dtCombinacoes.Columns.Add(new DataColumn(("Combinação " + i), typeof(string)));
             }
 
+            //Foreach pelas variaveis informadas para gerar as combinações
+            //Adicionando em cada linha a quantidade que cada variável deve ser repetida
             foreach (Variaveis var in variaveis)
             {
+                //Criando a nova linha que receberá os dados referentes a var
                 string[] novaLinha = new string[variaveis[variaveis.Count - 1].QtdeCombinacoes + 1];
+                //Setando a primeira coluna da linha com o nome da variável
                 novaLinha[0] = var.Nome;
 
+                //For que controla para que as variáveis sejam repetidas de acordo com quantas combinações serão formadas
                 for (int j = 0; j < variaveis[variaveis.Count - 1].QtdeCombinacoes;)
                 {
+                    //Foreach que passa pelos valores possíveis que compõe a var atual
                     foreach (string vlr in var.ValoresPossiveis)
                     {
+                        //For que controla quantas vezes cada variável deve ser repetida na linha
                         for (int i = 0; i < var.QtdeRepeticoes; i++)
                         {
                             novaLinha[j + 1] = vlr.ToString();
@@ -214,39 +235,60 @@ namespace TCC
                     }
                 }
 
+                //Adiciona a nova linha no datatable das combinações
                 dtCombinacoes.Rows.Add(novaLinha);
             }
 
+            //Verifica se o caminho já existe na máquina, senão, cria o caminho para salvar o arquivo
             if (!Directory.Exists(caminho))
             {
                 Directory.CreateDirectory(caminho);
             }
 
+            //Instância de um XLWorkbook
             var wb = new XLWorkbook();
 
+            //Adicionando o cabeçalho na worksheet
             var wsvar = wb.Worksheets.Add(dtCabecalho, "Combinações");
+
+            //Adicionando as combinações na worksheet, setando o inicio abaixo do cabeçalho
+            //através da variável comecaComb
             wb.Worksheet("Combinações").Cell(comecaComb, 1).InsertTable(dtCombinacoes);
 
+            //Ajustando as colunas de acordo com os valores
             wsvar.Columns().AdjustToContents();
 
+            //Salvando o arquivo no caminho criado
             wb.SaveAs(caminho + nomeArquivo + ".xlsx");
 
+            horaFinal = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            tempoGasto = horaFinal.Subtract(horaInicio);
+            //Mensagem para confirmar que o arquivo foi gerado
             MessageBox.Show("Arquivo gerado com sucesso." +
                             "\nCaminho: " + caminho +
-                            "\nArquivo: " + nomeArquivo,
+                            "\nArquivo: " + nomeArquivo +
+                            "\nTempo gasto: " + tempoGasto.ToString(),
                             "Sucesso",
                             MessageBoxButtons.OK);
 
+            //Limpando as listas de variáveis 
             lstVariaveis.Items.Clear();
             variaveis.Clear();
+            //Limpando o campo onde é informado o nome do arquivo
             txtNomeArquivo.Text = "";
         }
 
+        //Função implementada no campo onde é infomado o nome do arquivo
+        //Criada para impedir que o usuário digite caracteres que possam gerar problemas no windows
         private void txtNomeArquivo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            //Setando quais caracteres são permitidos
+            string caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ÇÃÕÊÉÍÓÌÀ";
+
+            //If para verificar se a tecla apertada pelo usuário faz parte da string de caracteres permitidos
             if (!(caracteresPermitidos.Contains(e.KeyChar.ToString().ToUpper())) && !char.IsControl(e.KeyChar))
             {
+                //Mensagem para informar que o caracter clicado é inválido
                 MessageBox.Show("Caracter " + e.KeyChar + " não permitido para nome de arquivo.");
                 e.Handled = true;
             }
